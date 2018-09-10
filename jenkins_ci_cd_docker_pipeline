@@ -25,10 +25,10 @@ node{
         def dockerRun = ' docker run  -d -p 8080:8080 --name gradle-web-app madan2488/gradle-web-app'
          
         sshagent(['00a60540-6fd0-4533-ae6e-3aee64dc06c0']) {
-          sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.14.4 docker stop gradle-web-app || true'
-          sh 'ssh  ubuntu@172.31.14.4 docker rm gradle-web-app || true'
-          sh 'ssh  ubuntu@172.31.14.4 docker rmi -f  $(docker images -q) || true'
-		  sh "ssh  ubuntu@172.31.14.4 ${dockerRun}"
+          sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.14.4 docker stop gradle-web-app || true'
+          sh 'ssh  ec2-user@172.31.14.4 docker rm gradle-web-app || true'
+          sh 'ssh  ec2-user@172.31.14.4 docker rmi -f  $(docker images -q) || true'
+		  sh "ssh  ec2-user@172.31.14.4 ${dockerRun}"
        }
        
     }
