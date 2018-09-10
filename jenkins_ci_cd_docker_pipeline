@@ -9,25 +9,25 @@ node{
     }
     
     stage('Build Docker Image'){
-        sh 'docker build -t dockerhandson/gradle-web-app .'
+        sh 'docker build -t madan2488/gradle-web-app .'
     }
     
     stage('Push Docker Image'){
-        withCredentials([string(credentialsId: 'Docker-Hub-Pwd', variable: 'DockerHub_Pwd')]) {
-          sh "docker login -u dockerhandson -p ${DockerHub_Pwd}"
+        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHub')]) {
+          sh "docker login -u madan2488 -p ${dockerHub}"
         }
-        sh 'docker push dockerhandson/gradle-web-app'
+        sh 'docker push madan2488/gradle-web-app'
     }
     
     stage('Run Docker Image In Dev Server'){
         
-        def dockerRun = ' docker run  -d -p 8080:8080 --name gradle-web-app dockerhandson/gradle-web-app'
+        def dockerRun = ' docker run  -d -p 8080:8080 --name gradle-web-app madan2488/gradle-web-app'
          
          sshagent(['AWS_UBUNTU_SSH']) {
-          sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.31.250 docker stop gradle-web-app || true'
-          sh 'ssh  ubuntu@172.31.31.250 docker rm gradle-web-app || true'
-          sh 'ssh  ubuntu@172.31.31.250 docker rmi -f  $(docker images -q) || true'
-		  sh "ssh  ubuntu@172.31.31.250 ${dockerRun}"
+          sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.14.4 docker stop gradle-web-app || true'
+          sh 'ssh  ubuntu@172.31.14.4 docker rm gradle-web-app || true'
+          sh 'ssh  ubuntu@172.31.14.4 docker rmi -f  $(docker images -q) || true'
+		  sh "ssh  ubuntu@172.31.14.4 ${dockerRun}"
        }
        
     }
