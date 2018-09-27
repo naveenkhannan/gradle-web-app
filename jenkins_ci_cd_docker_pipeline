@@ -14,8 +14,9 @@ node{
     }
     
     stage('Push Docker Image'){
-        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHub')]) {
-          sh "docker login -u madan2488 -p ${dockerHub}"
+       withCredentials([usernameColonPassword(credentialsId: '85dfbf76-ccd6-4e0a-8cde-3b942a82e328', variable: '')]) {
+    // some block
+}
         }
         sh 'docker push madan2488/gradle-web-app'
     }
